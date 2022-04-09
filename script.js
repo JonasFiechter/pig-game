@@ -19,9 +19,25 @@ let current_player = 0;
 let running = true
 
 // Starting conditions
-score0_el.textContent = 0;
-score1_el.textContent = 0;
-dice_el.classList.add('hidden');
+const new_game = () => {
+    score0_el.textContent = 0;
+    score1_el.textContent = 0;
+    dice_el.classList.add('hidden');
+    btn_hold.classList.remove('hidden')
+    btn_roll.classList.remove('hidden')
+    scores = [0, 0];
+    current_score = 0;
+    running = true;
+    document.querySelector(`.player--${current_player}`).classList.remove('player--winner');
+
+    if (current_player == 0) {
+        document.getElementById(`name--${current_player}`).textContent = `PLAYER 1`
+    } else {
+        document.getElementById(`name--${current_player}`).textContent = `PLAYER 2`
+    }
+    console.log(current_player)
+    switch_player()    
+}
 
 
 const switch_player = () => {
@@ -55,10 +71,8 @@ btn_hold.addEventListener('click', () => {
     scores[current_player] += current_score
     document.getElementById(`score--${current_player}`).textContent = scores[current_player];
     document.getElementById(`current--${current_player}`).textContent = 0
-    if (scores[current_player] >= 100) {
-        console.log(`works player = ${current_player}`)
+    if (scores[current_player] >= 10) {
         document.querySelector(`.player--${current_player}`).classList.add('player--winner');
-        document.querySelector(`.player--${current_player}`).classList.remove('player--active');
         running = false
     } else {
     switch_player()
@@ -70,3 +84,5 @@ btn_hold.addEventListener('click', () => {
         document.getElementById(`name--${current_player}`).textContent = 'Winner!'
     }
 })
+
+btn_new.addEventListener('click', new_game)
